@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 
 import 'rxjs/add/operator/toPromise';
 
-import { Pessoa } from './../core/model';
+import { Pessoa, Estado, Cidade } from './../core/model';
 
 export class PessoaFiltro {
   nome: string;
@@ -17,10 +17,14 @@ export class PessoaFiltro {
 export class PessoaService {
 
   pessoasUrl: string;
+  estadosUrl: string;
+  cidadesUrl: string;
 
   constructor(private http: AuthHttp) {
     this.pessoasUrl = `${environment.apiUrl}/pessoas`;
-   }
+    this.estadosUrl = `${environment.apiUrl}/estados`;
+    this.cidadesUrl = `${environment.apiUrl}/cidades`;
+  }
 
   pesquisar(filtro: PessoaFiltro): Promise<any> {
     const params = new URLSearchParams();
@@ -77,7 +81,7 @@ export class PessoaService {
   atualizar(pessoa: Pessoa): Promise<Pessoa> {
 
     return this.http.put(`${this.pessoasUrl}/${pessoa.codigo}`,
-        JSON.stringify(pessoa))
+      JSON.stringify(pessoa))
       .toPromise()
       .then(response => response.json() as Pessoa);
   }
@@ -87,6 +91,23 @@ export class PessoaService {
     return this.http.get(`${this.pessoasUrl}/${codigo}`)
       .toPromise()
       .then(response => response.json() as Pessoa);
+  }
+
+  listarEstados(): Promise<Estado[]> {
+    return this.http.get(this.estadosUrl)
+      .toPromise()
+      .then(response => response.json());
+  }
+
+  pesquisarCidades(estado): Promise<Cidade[]> {
+    const params = new URLSearchParams();
+    params.set('estado', estado);
+
+    return this.http.get(this.cidadesUrl, {
+      search: params
+    })
+      .toPromise()
+      .then(response => response.json());
   }
 
 }

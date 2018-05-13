@@ -7,7 +7,7 @@ import { ToastyService } from 'ng2-toasty';
 
 import { ErrorHandlerService } from './../../core/error-handler.service';
 import { PessoaService } from './../pessoa.service';
-import { Pessoa } from './../../core/model';
+import { Pessoa, Contato } from './../../core/model';
 
 @Component({
   selector: 'app-pessoa-cadastro',
@@ -17,6 +17,9 @@ import { Pessoa } from './../../core/model';
 export class PessoaCadastroComponent implements OnInit {
 
   pessoa = new Pessoa();
+  estados: any[];
+  cidades: any[];
+  estadoSelecionado: number;
 
   constructor(
     private pessoaService: PessoaService,
@@ -32,9 +35,27 @@ export class PessoaCadastroComponent implements OnInit {
 
     this.title.setTitle('Nova pessoa');
 
+    this.carregarEstados();
+
     if (codigoPessoa) {
       this.carregarPessoa(codigoPessoa);
     }
+  }
+
+  carregarEstados() {
+    this.pessoaService.listarEstados()
+      .then(lista => {
+        this.estados = lista.map(uf => ({ label: uf.nome, value: uf.codigo }));
+      })
+      .catch(erro => this.errorHandler.handle(erro));
+  }
+
+  carregarCidades() {
+    this.pessoaService.pesquisarCidades(this.estadoSelecionado)
+      .then(lista => {
+        this.cidades = lista.map(uf => ({ label: uf.nome, value: uf.codigo }));
+      })
+      .catch(erro => this.errorHandler.handle(erro));
   }
 
   get editando() {
@@ -45,6 +66,14 @@ export class PessoaCadastroComponent implements OnInit {
     this.pessoaService.buscarPorCodigo(codigo)
       .then(pessoa => {
         this.pessoa = pessoa;
+
+        this.estadoSelecionado = (this.pessoa.endereco.cidade.codigo) ?
+        this.pessoa.endereco.cidade.estado.codigo : null;
+
+        if (this.estadoSelecionado) {
+          this.carregarCidades();
+        }
+
         this.atualizarTituloEdicao();
       })
       .catch(erro => this.errorHandler.handle(erro));
@@ -81,7 +110,7 @@ export class PessoaCadastroComponent implements OnInit {
   nova(form: FormControl) {
     form.reset();
 
-    setTimeout(function() {
+    setTimeout(function () {
       this.pessoa = new Pessoa();
     }.bind(this), 1);
 

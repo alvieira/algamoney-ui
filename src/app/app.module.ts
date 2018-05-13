@@ -5,8 +5,6 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
-import { PessoasModule } from './pessoas/pessoas.module';
-import { LancamentosModule } from './lancamentos/lancamentos.module';
 import { SegurancaModule } from './seguranca/seguranca.module';
 import { AppRoutingModule } from './app-routing.module';
 
@@ -17,11 +15,8 @@ import { AppRoutingModule } from './app-routing.module';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    HttpModule,
 
     CoreModule,
-    LancamentosModule,
-    PessoasModule,
     SegurancaModule,
     AppRoutingModule
   ],

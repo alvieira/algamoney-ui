@@ -2,16 +2,20 @@ import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { InputMaskModule } from 'primeng/components/inputmask/inputmask';
-import { DataTableModule } from 'primeng/components/datatable/datatable';
-import { ButtonModule } from 'primeng/components/button/button';
-import { InputTextModule } from 'primeng/components/inputtext/inputtext';
-import { TooltipModule } from 'primeng/components/tooltip/tooltip';
+import { InputMaskModule } from 'primeng/inputmask';
+import { PanelModule } from 'primeng/panel';
+import { DialogModule } from 'primeng/dialog';
+import { TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
+import { TooltipModule } from 'primeng/tooltip';
+import { DropdownModule } from 'primeng/dropdown';
 
 import { SharedModule } from './../shared/shared.module';
 import { PessoasPesquisaComponent } from './pessoas-pesquisa/pessoas-pesquisa.component';
 import { PessoaCadastroComponent } from './pessoa-cadastro/pessoa-cadastro.component';
 import { PessoasRoutingModule } from './pessoas-routing.module';
+import { PessoaCadastroContatoComponent } from './pessoa-cadastro-contato/pessoa-cadastro-contato.component';
 
 @NgModule({
   imports: [
@@ -20,16 +24,20 @@ import { PessoasRoutingModule } from './pessoas-routing.module';
 
     InputTextModule,
     ButtonModule,
-    DataTableModule,
+    TableModule,
     TooltipModule,
     InputMaskModule,
+    PanelModule,
+    DialogModule,
+    DropdownModule,
 
     SharedModule,
     PessoasRoutingModule
   ],
   declarations: [
     PessoaCadastroComponent,
-    PessoasPesquisaComponent
+    PessoasPesquisaComponent,
+    PessoaCadastroContatoComponent
   ],
   exports: []
 })
